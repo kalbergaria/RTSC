@@ -1,0 +1,55 @@
+#ifndef UDP_RECEIVER_H
+#define UDP_RECEIVER_H
+
+#include "../include/Global.h"
+#include "../include/ThreadBase.h"
+#include "../include/CharPtrQueue.h"
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+class UDPReceiver : public ThreadBase
+{
+	public:
+		// constructor
+		UDPReceiver(int providedPortNumber, int providedBufferSize, int providedNumBuffers, char* owningClass, char* myIP);
+
+		//public methods
+		void InitializeUDPReceiver(int portNumber);
+		void ThreadMethod();
+		bool GetDataBuffer(char** tempBufferPtr);
+		bool ReleaseDataBuffer(char* tempBufferPtr);
+
+		// public data
+		int portNumber;
+		int numBuffers;
+		int bufferSize;
+		char** dataBuffers;
+		int qSize;
+
+	private:
+		// default constructor is private so that it cannot be called
+		// to instantiate the class
+		UDPReceiver();
+
+		// private methods
+		void ReceiveData();
+		void ResyncFreeQAndDataQ();
+
+		// private data
+		char* receiverOwner;
+		CharPtrQueue* freeQ;
+		char freeQName[MAX_CLASSNAME_LENGTH];
+		CharPtrQueue* dataQ;
+		char dataQName[MAX_CLASSNAME_LENGTH];
+		char* bufferBeingFilled;
+		int mySocket;
+		int port;
+		int bytesRead;
+		unsigned int sockaddrSize;
+		struct sockaddr_in destinationAddr, sourceAddr;
+		char dataReceived[MAX_UDP_DATA_SIZE];
+};
+
+#endif
