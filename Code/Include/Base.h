@@ -1,28 +1,55 @@
-#ifndef CMSN_BASE_H
-#define CMSN_BASE_H
-
-// External Files
-#include <string>
+#ifndef BASE_H
+#define BASE_H
 
 // System Files
-#include "../include/UDPSender.h"
-#include "../include/LogMSG.h"
-#include "../include/CMSNTypes.h"
+#include "Global.h"
+#include "UDPSender.h"
+#include "LogMSG.h"
 
-using namespace std;
-
-class CMSNBase
+class Base
 {
   public:
-    CMSNBase();
+
+	///////////////////////////////////////////////////////////
+	// TYPE: Method 
+	//  
+	// METHOD NAME: Base
+	//
+	/// DESCRIPTION: Default constructor
+	///////////////////////////////////////////////////////////
+    Base();
+
+	///////////////////////////////////////////////////////////
+	// TYPE: Method
+	//
+	// METHOD NAME: SendToLogger
+	//
+	/// DESCRIPTION: When the UDPSender is instantiated, it is
+	/// given the port # and ip address for the system's 
+	/// logger (this information is read-in from the 
+	/// Config.rtsc file at runtime).
+	///////////////////////////////////////////////////////////
     void SendToLogger();
-    void ConcatCharArraysAndAddNullChar(char* dest, const char* src);
-    void WriteStringtoCharArray(char* array, string str);
+
 
   protected:
+
+	///////////////////////////////////////////////////////////
+	// TYPE: Protected Data Members
+	//
+	/// DESCRIPTION: Classes that inherit from this one will be
+	/// provided with allocated space in memory for a class name 
+	/// and log message, and an instantiated UDP-based log 
+	/// sender.
+	///////////////////////////////////////////////////////////
+	char* myClassName;
     UDPSender* logSender;
     LogMSG* myLogMessage;
-    char* myClassName;
 };
 
 #endif
+
+/*
+Maximum Line Size
+<=======================================================================>
+*/

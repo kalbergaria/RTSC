@@ -1,3 +1,11 @@
-﻿  main.cpp
-  VS_RTSC_Project.vcxproj -> C:\Users\Keith\Source\Repos\RTSC\VS_RTSC_Project\Debug\VS_RTSC_Project.exe
-  VS_RTSC_Project.vcxproj -> C:\Users\Keith\Source\Repos\RTSC\VS_RTSC_Project\Debug\VS_RTSC_Project.pdb (Partial PDB)
+﻿  Base.cpp
+  Generating Code...
+  Compiling...
+  main.cpp
+  UDPSender.cpp
+  ThreadManager.cpp
+c:\users\keith\documents\git-repos\rtsc\code\source\threadmanager.cpp(21): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(136): note: see declaration of 'strcpy'
+  Generating Code...
+  VS_RTSC_Project.vcxproj -> C:\Users\Keith\Documents\git-repos\RTSC\VS_RTSC_Project\Debug\VS_RTSC_Project.exe
+  VS_RTSC_Project.vcxproj -> C:\Users\Keith\Documents\git-repos\RTSC\VS_RTSC_Project\Debug\VS_RTSC_Project.pdb (Partial PDB)

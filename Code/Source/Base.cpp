@@ -1,38 +1,35 @@
 // External Libraries
-#include <stdio.h>
 
 // System Files
-#include "../include/CMSNBase.h"
+#include "Base.h"
 
-// Default Constructor
-CMSNBase::CMSNBase() 
+//
+//
+//
+Base::Base()
 {
+	// Allocate memory for the class name
 	myClassName = (char*)malloc(MAX_CLASSNAME_LENGTH * sizeof(char));
 
+	// Allocted memory for a log messge
 	myLogMessage = new LogMSG();
-	logSender = new UDPSender((char*)DISPLAY_AND_LOGGER_IP, LOG_MSG_PORT);
+
+	// Instantiate the UDPSender for logging, IP and Port parameters
+	// are those specified in the Config.rtsc file.
+	logSender = new UDPSender((char*)LOGGER_IP, LOGGER_PORT);
 }
 
 //
 //
 //
-void CMSNBase::WriteStringtoCharArray(char* array, string str)
+void Base::SendToLogger()
 {
-	strncpy(array, (char*)&str, str.size());
-	array[str.size() + 1] = '\0';
-}
-
-//
-//
-//
-void CMSNBase::ConcatCharArraysAndAddNullChar(char* dest, const char* src)
-{
-	strcat(dest, src);
-	dest[strlen(dest)+strlen(src)+1] = '\0';
-}
-
-// Sends the data the object would like to log to the CMSNLogger
-void CMSNBase::SendToLogger()
-{
+	// Send the data currently in the classes log message
+	// to the logger
 	logSender->SendMSG((char*)myLogMessage, sizeof(LogMSG));
 }
+
+/*
+Maximum Line Size
+<=======================================================================>
+*/

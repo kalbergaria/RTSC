@@ -1,31 +1,63 @@
+///////////////////////////////////////////////////////////
+// NOTE: This class has been architected to follow the
+// principles of the SINGLETON DESIGN PATTERN.
+///////////////////////////////////////////////////////////
+
 #ifndef THREAD_MANAGER_H
 #define THREAD_MANAGER_H
 
 #include "Global.h"
-#include "CMSNBase.h"
+#include "Base.h"
 
-#define NUM_THREADS 1
-
-class ThreadManager : public CMSNBase
+class ThreadManager : public Base
 {
 	public:
-		// -----Singleton Code-----
+		///////////////////////////////////////////////////////////
+		// TYPE: Method 
+		//  
+		// METHOD NAME: GetInstance
+		//
+		/// DESCRIPTION: Returns the address to the only instance
+		/// of the class. If the class has not yet been
+		/// instantiated, it will do so.
+		///////////////////////////////////////////////////////////
 		static ThreadManager* getInstance();
-		~ThreadManager();
-		// ------------------------
 
-		void StartAllThreads_LIDAR_Pi(char* myIP);
-		void StartAllThreads_Display_Pi();
-		void StartAllThreads_Debug();
+		///////////////////////////////////////////////////////////
+		// TYPE: Method 
+		//  
+		// METHOD NAME: ~ThreadManager
+		//
+		/// DESCRIPTION: Class destructor
+		///////////////////////////////////////////////////////////
+		~ThreadManager();
+
+		///////////////////////////////////////////////////////////
+		// TYPE: Method 
+		//  
+		// METHOD NAME: StartAllThreads
+		//
+		/// DESCRIPTION: Starts all RTSC threads.
+		///////////////////////////////////////////////////////////
+		void StartAllThreads();
 
 	private:
-		// -----Singleton Code-----
+		///////////////////////////////////////////////////////////
+		// TYPE: Method 
+		//  
+		// METHOD NAME: Base
+		//
+		/// DESCRIPTION: Default constructor
+		///////////////////////////////////////////////////////////
 		ThreadManager();
+
+		///////////////////////////////////////////////////////////
+		// TYPE: Singleton Pointer
+		//
+		/// DESCRIPTION: The pointer holding the address of the
+		/// only instance of the class.
+		///////////////////////////////////////////////////////////
 		static ThreadManager* threadManagerInstance;
-		// ------------------------
-		char* tachReceiver;
-		char* loggingReceiver;
-		char* dispObsProcReceiver;
 };
 
 #endif

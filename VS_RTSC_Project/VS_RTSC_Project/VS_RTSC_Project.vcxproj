@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Keith\Source\Repos\RTSC\Code\Include;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\Code\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -140,11 +140,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Code\Source\Base.cpp" />
     <ClCompile Include="..\..\Code\Source\main.cpp" />
+    <ClCompile Include="..\..\Code\Source\ThreadManager.cpp" />
+    <ClCompile Include="..\..\Code\Source\UDPSender.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Code\Include\Base.h" />
+    <ClInclude Include="..\..\Code\Include\RTSCConfig.h" />
     <ClInclude Include="..\..\Code\Include\Global.h" />
     <ClInclude Include="..\..\Code\Include\Platform.h" />
+    <ClInclude Include="..\..\Code\Include\ThreadManager.h" />
+    <ClInclude Include="..\..\Code\Include\UDPSender.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

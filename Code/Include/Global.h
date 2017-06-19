@@ -5,8 +5,7 @@
 // Common System Files
 ///////////////////////////////////////////////////////////
 #include "Platform.h"
-#include "DebugState.h"
-#include "Debug.h"
+#include "RTSCConfig.h"
 
 ///////////////////////////////////////////////////////////
 // Platform Independent External Libraries & Namespaces
