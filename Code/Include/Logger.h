@@ -1,25 +1,28 @@
-#ifndef CMSN_LOGGER_H
-#define CMSN_LOGGER_H
+//TODO: Currently coded for Linux only!
+
+#ifndef LOGGER_H
+#define LOGGER_H
+
+// System Files
+#include "../Include/Global.h"
+#include "../Include/ThreadBase.h"
+#include "../Include/UDPReceiver.h"
 
 // Extrernal Files
 #include <fstream>
 
-// System Files
-#include "../include/Global.h"
-#include "../include/ThreadBase.h"
-#include "../include/UDPReceiver.h"
-
-class CMSNLogger : public ThreadBase
+class Logger : public ThreadBase
 {
   public:
-    CMSNLogger(UDPReceiver* UDPReceiverPtr);
-	  void ThreadMethod();
+    Logger(UDPReceiver* UDPReceiverPtr);
+    ~Logger();
+    void ThreadMethod();
     void WriteToLog();
     void CreateNewLog();
 
   private:
     // private default constructor, so it cannot be called
-    CMSNLogger();
+    Logger();
     void WriteCharArrayToLog(char* array, int arrayLength);
 
     // private data

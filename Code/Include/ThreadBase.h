@@ -1,3 +1,5 @@
+//TODO: Currently coded for Linux only!
+
 #ifndef THREAD_BASE_H
 #define THREAD_BASE_H
 
@@ -5,9 +7,9 @@
 #include <pthread.h>
 
 // System Files
-#include "CMSNBase.h"
+#include "Base.h"
 
-class ThreadBase : public CMSNBase
+class ThreadBase : public Base
 {
 	public:
 		ThreadBase();

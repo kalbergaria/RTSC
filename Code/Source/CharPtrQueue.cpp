@@ -1,13 +1,18 @@
+//TODO: Currently coded for Linux only!
+
 //
 // NOTE: the following queue is implemented as a circular-queue, though those
 // details are abstracted from the user
 //
 
+
+// System Libraries
+#include "../Include/RtscConfig.h"
+#include "../Include/CharPtrQueue.h"
+
+// External Libraries
 #include <string.h>
 #include <iostream>
-#include "../include/DebugState.h"
-#include "../include/CMSNTypes.h"
-#include "../include/CharPtrQueue.h"
 
 // Class Mutexes
 pthread_mutex_t myQueueMutex;
@@ -49,6 +54,8 @@ CharPtrQueue::~CharPtrQueue(void)
 		Q = 0;
 	}
 
+    free(qName);
+
     pthread_mutex_destroy(&myQueueMutex);
 }
 
@@ -68,11 +75,6 @@ bool CharPtrQueue::Dequeue(char** data)
         *data = Q[dequeueIndex];
         dequeueIndex = NextIndex(dequeueIndex);
         numQueuedElements--;
-        #if debug2 == true
-		    for(int i = 0; i < MAX_Q_NAME; i++)
-                cout << qName[i];
-            cout << " now has " << numQueuedElements << " available buffers." << endl;
-	    #endif
 		success = true;
     }
 
@@ -98,11 +100,6 @@ bool CharPtrQueue::Enqueue(char* data)
         Q[enqueueIndex] = data;
         enqueueIndex = NextIndex(enqueueIndex);
         numQueuedElements++;
-        #if debug2 == true
-		    for(int i = 0; i < MAX_Q_NAME; i++)
-                cout << qName[i];
-            cout << " now has " << numQueuedElements << " available buffers." << endl;
-	    #endif
 		success = true;
     }
 

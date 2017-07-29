@@ -19,6 +19,23 @@ int main(void)
 	ThreadManager* myThreadManager = ThreadManager::getInstance();
 	myThreadManager->StartAllThreads();
 
+	// Print processor info
+	cout << "System Info: ";
+
+	#ifdef RTSC_INTEL
+		cout << "Intel processor ";
+	#elif RTSC_AMD
+		cout << "AMD processor ";
+	#elif RTSC_ARM
+		cout << "ARM processor ";
+    #endif
+
+	#ifdef RTSC_LINUX
+		cout << "running Linux." << endl;
+    #elif RTSC_WIN
+		cout << "running Windows." << endl;
+    #endif
+
 	// Loop indefinitely
 	while (true)
 	{

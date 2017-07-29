@@ -1,3 +1,5 @@
+//TODO: Currently coded for Linux only!
+
 ///////////////////////////////////////////////////////////
 // NOTE: This class has been architected to follow the
 // principles of the SINGLETON DESIGN PATTERN.

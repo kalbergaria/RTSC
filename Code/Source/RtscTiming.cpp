@@ -1,7 +1,9 @@
-// External Libraries
+//TODO: Currently coded for Linux only!
 
 // System Files
-#include "../include/CMSNTiming.h"
+#include "../Include/RtscTiming.h"
+
+// External Libraries
 
 #define THOUSAND 1000
 

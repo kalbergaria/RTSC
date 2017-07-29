@@ -1,7 +1,10 @@
-//TODO: Code the Windows side of the UDPSender.
+//TODO: Currently coded for Linux only!
 
 #ifndef UDP_SENDER_H
 #define UDP_SENDER_H
+
+// System Files
+#include "Global.h"
 
 // External Files
 #ifdef RTSC_LINUX
@@ -9,9 +12,6 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #endif
-
-// System Files
-#include "Global.h"
 
 class UDPSender
 {

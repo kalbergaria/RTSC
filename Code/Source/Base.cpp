@@ -1,7 +1,6 @@
-// External Libraries
-
 // System Files
 #include "Base.h"
+// External Libraries
 
 //
 //
@@ -16,7 +15,17 @@ Base::Base()
 
 	// Instantiate the UDPSender for logging, IP and Port parameters
 	// are those specified in the Config.rtsc file.
-	logSender = new UDPSender((char*)LOGGER_IP, LOGGER_PORT);
+	logSender = new UDPSender((char*)DISPLAY_AND_LOGGER_IP, LOGGER_PORT);
+}
+
+//
+//
+//
+Base::~Base()
+{
+	free(myClassName);
+	delete(myLogMessage);
+	delete(logSender);
 }
 
 //

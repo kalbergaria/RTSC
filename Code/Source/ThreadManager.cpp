@@ -1,7 +1,12 @@
-// External Libraries
+//TODO: Currently coded for Linux only!
 
 // System Files
-#include "ThreadManager.h"
+#include "../Include/ThreadManager.h"
+#include "../Include/UDPReceiver.h"
+#include "../Include/Logger.h"
+
+
+// External Libraries
 
 ThreadManager* ThreadManager::threadManagerInstance = NULL;
 
@@ -32,7 +37,7 @@ ThreadManager* ThreadManager::getInstance()
 	#endif
 
 	// if the class not been instantiated, instantiate it
-	// double-checked locking (in case of threads compete to instantiate)
+	// double-checked locking (in case threads compete to instantiate)
 	if (threadManagerInstance == NULL)
 		if (threadManagerInstance == NULL)
 			threadManagerInstance = new ThreadManager();
@@ -56,14 +61,14 @@ ThreadManager::~ThreadManager()
 	#endif
 
 	if (threadManagerInstance != NULL)
-	{
+		threadManagerInstance = NULL;
 
-	}
-	threadManagerInstance = NULL;
-
-    // release the MUTEX
+    // release and destroy MUTEX
 	#ifdef RTSC_LINUX
     pthread_mutex_unlock(&ThreadManager_DESTRUCTOR);
+
+	pthread_mutex_destroy(&ThreadManager_GET_INSTANCE);
+	pthread_mutex_destroy(&ThreadManager_DESTRUCTOR);
 	#endif
 }
 
@@ -72,7 +77,13 @@ ThreadManager::~ThreadManager()
 //
 void ThreadManager::StartAllThreads()
 {
+	UDPReceiver* loggerUDPReceiver = new UDPReceiver(
+			DISPLAY_AND_LOGGER_IP, sizeof(LogMSG),
+			8, DISPLAY_AND_LOGGER_PORT);
+	loggerUDPReceiver->StartThread();
 
+	Logger* myLogger = new Logger(loggerUDPReceiver);
+	myLogger->StartThread();
 }
 
 /*

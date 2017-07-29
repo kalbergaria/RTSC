@@ -1,3 +1,4 @@
+//TODO: Currently coded for Linux only!
 
 #ifndef CHAR_PTR_QUEUE_H
 #define CHAR_PTR_QUEUE_H

@@ -1,9 +1,14 @@
+//TODO: Currently coded for Linux only!
+
 #ifndef UDP_RECEIVER_H
 #define UDP_RECEIVER_H
 
-#include "../include/Global.h"
-#include "../include/ThreadBase.h"
-#include "../include/CharPtrQueue.h"
+// System Libraries
+#include "../Include/Global.h"
+#include "../Include/ThreadBase.h"
+#include "../Include/CharPtrQueue.h"
+
+// External Libraries
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -12,11 +17,11 @@
 class UDPReceiver : public ThreadBase
 {
 	public:
-		// constructor
 		UDPReceiver(int providedPortNumber, int providedBufferSize, int providedNumBuffers, char* owningClass, char* myIP);
+		~UDPReceiver();
 
 		//public methods
-		void InitializeUDPReceiver(int portNumber);
+		void InitializeUDPReceiver();
 		void ThreadMethod();
 		bool GetDataBuffer(char** tempBufferPtr);
 		bool ReleaseDataBuffer(char* tempBufferPtr);
@@ -35,7 +40,8 @@ class UDPReceiver : public ThreadBase
 
 		// private methods
 		void ReceiveData();
-		void ResyncFreeQAndDataQ();
+		void ResyncFreeQAndDataQIfNecessary();
+        void ConcatCharArraysAndAddNullChar(char* dest, const char* src);
 
 		// private data
 		char* receiverOwner;

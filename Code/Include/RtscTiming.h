@@ -1,3 +1,5 @@
+//TODO: Currently coded for Linux only!
+
 #ifndef CMSN_TIME_H
 #define CMSN_TIME_H
 

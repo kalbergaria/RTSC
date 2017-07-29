@@ -1,21 +1,23 @@
+//TODO: Currently coded for Linux only!
+
 // External Libraries
 #include <time.h>
 
 // System Files
-#include "../include/CMSNLogger.h"
-#include "../include/CMSNTiming.h"
+#include "../Include/Logger.h"
+#include "../Include/RtscTiming.h"
 
 //
 //
 // Private Default Constructor
-CMSNLogger::CMSNLogger() {}
+Logger::Logger() {}
 
 //
 //
 // Constructor
-CMSNLogger::CMSNLogger(UDPReceiver* UDPReceiverPtr)
+Logger::Logger(UDPReceiver* UDPReceiverPtr)
 {
-	strcpy(myClassName, "CMSNLogger");
+	strcpy(myClassName, "Logger");
 
 	loggingUDPReceiver = UDPReceiverPtr;
 
@@ -24,7 +26,7 @@ CMSNLogger::CMSNLogger(UDPReceiver* UDPReceiverPtr)
 	now = time(NULL);
 	logFileName[0] = '\0';
 	if (now != -1)
-		strftime(logFileName, LOG_PATH_LENGTH, "../../../logs/%m-%d-%y_%H:%M:%S.log", gmtime(&now));
+		strftime(logFileName, LOG_PATH_LENGTH, "Logs/%m-%d-%y_%H:%M:%S.log", gmtime(&now));
 
 	// Create file for writing
 	logFile.open(logFileName, ios::out);
@@ -34,7 +36,6 @@ CMSNLogger::CMSNLogger(UDPReceiver* UDPReceiverPtr)
 	strcpy(myLogMessage->UDP_MSGHeader.destination, DISPLAY_AND_LOGGER_IP);
 	strcpy(myLogMessage->className, myClassName);
 	myLogMessage->msgLevel = CLASS_CREATION;
-	myLogMessage->deviceRole = DISPLAY_UNIT;
 	SendToLogger();
 
 	#if AUTO_OPEN_LOG == true
@@ -46,8 +47,16 @@ CMSNLogger::CMSNLogger(UDPReceiver* UDPReceiverPtr)
 	#endif
 }
 
+//
+//
+// Default Destructor
+Logger::~Logger()
+{
+
+}
+
 // Logging
-void CMSNLogger::ThreadMethod()
+void Logger::ThreadMethod()
 {
 	// Checks for log messages, if there are none it re-checks every 10ms, otherwise
 	// it writes the log message to the log file.
@@ -68,7 +77,7 @@ void CMSNLogger::ThreadMethod()
 //
 //
 // Write to the system log
-void CMSNLogger::WriteToLog()
+void Logger::WriteToLog()
 {
 	// Print the timestamp at the head of the line
 	clock_gettime(CLOCK_REALTIME, &logMSGTimestamp);
@@ -103,28 +112,6 @@ void CMSNLogger::WriteToLog()
 	}
 
 	WriteCharArrayToLog(logMessage->className, MAX_CLASSNAME_LENGTH);
-	
-	// Print the device from which the message originated
-	switch(logMessage->deviceRole)
-	{
-		case MOTOR_UNIT:
-			logFile << "on MOTOR-pi ";
-			break;
-		case LIDAR_UNIT:
-			logFile << " on LIDAR-pi ";
-			// Print the ip address of the device if the device is a LIDAR pi
-			// so that the messages source can be distinguished
-			logFile << "[";
-			WriteCharArrayToLog(logMessage->UDP_MSGHeader.source, IPV4_ADDR_LENGTH);
-			logFile << "]";
-			break;
-		case DISPLAY_UNIT:
-			logFile << " on DISPLAY-PC ";
-			break;
-		default:
-			logFile << " on UNKNOWN-DEVICE ";
-			break;
-	}
 
 	// Print anything else about what is being logged
 	if(logMessage->logString[0] != '\0' || logMessage->logString[0] != 0)
@@ -137,7 +124,7 @@ void CMSNLogger::WriteToLog()
 //
 //
 //
-void CMSNLogger::WriteCharArrayToLog(char* array, int arrayLength)
+void Logger::WriteCharArrayToLog(char* array, int arrayLength)
 {
 	// Print the class name
 	for(int charIndex = 0; charIndex < arrayLength; charIndex++)

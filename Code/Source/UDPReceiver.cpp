@@ -1,7 +1,9 @@
+//TODO: Currently coded for Linux only!
+
 // External Libraries
 
 // System Files
-#include "../include/UDPReceiver.h"
+#include "../Include/UDPReceiver.h"
 
 //
 //
@@ -17,12 +19,12 @@ UDPReceiver::UDPReceiver(int providedPortNumber, int providedBufferSize, int pro
 
 	receiverOwner = (char*)malloc(MAX_CLASSNAME_LENGTH * sizeof(char));
 	strcpy(receiverOwner, owningClass);
-	ConcatCharArraysAndAddNullChar(receiverOwner, myClassName);
+	//ConcatCharArraysAndAddNullChar(receiverOwner, myClassName);
+    // TODO: Find this function in CMSN
 
 	// Init receiver
 	sockaddrSize = sizeof(struct sockaddr);
 	portNumber = providedPortNumber;
-	InitializeUDPReceiver(providedPortNumber);
 
 	// Record buffer and queue specs
 	numBuffers = providedNumBuffers;
@@ -50,16 +52,26 @@ UDPReceiver::UDPReceiver(int providedPortNumber, int providedBufferSize, int pro
 	strcpy(myLogMessage->UDP_MSGHeader.destination, DISPLAY_AND_LOGGER_IP);
 	strcpy(myLogMessage->className, receiverOwner);
 	myLogMessage->msgLevel = CLASS_CREATION;
-	myLogMessage->deviceRole = DISPLAY_UNIT;
 	myLogMessage->logString[0] = '\0';
 	SendToLogger();
 }
 
 //
 //
+// Default Constructor
+UDPReceiver::~UDPReceiver()
+{
+	free(receiverOwner);
+	delete(dataQ);
+	delete(freeQ);
+	free(dataBuffers);
+}
+
 //
-void UDPReceiver::InitializeUDPReceiver(int portNumber)
-{sprintf(myLogMessage->logString, "Sample obtained and queued in %s", LIDAR_PI_IP20);
+//
+//
+void UDPReceiver::InitializeUDPReceiver()
+{
 	if ((mySocket = socket(AF_INET, SOCK_DGRAM, 0)) == -1)
 		printf("UDPReceiver: error creating socket!\n");
 
@@ -85,14 +97,12 @@ void UDPReceiver::ThreadMethod()
 
 //
 //
-// Receive obstruction data from the LIDAR Pis
+//
 void UDPReceiver::ReceiveData()
 {
-	//printf("Waiting for a message on port %d...\n", portNumber);
-	
 	// If there are no additional buffers available, resynchronize with the
 	// data destination by emptying the dataQ
-	ResyncFreeQAndDataQ();
+	ResyncFreeQAndDataQIfNecessary();
 
 	// Reserve a buffer to place the incoming data
 	freeQ->Dequeue(&bufferBeingFilled);
@@ -100,15 +110,6 @@ void UDPReceiver::ReceiveData()
 	// Receive data and place in buffer
 	bytesRead = recvfrom(mySocket, bufferBeingFilled, bufferSize, 0, (struct sockaddr *)&sourceAddr, &sockaddrSize);
 	// TODO: Error handling needed here...
-	
-	// to check if sample data stuctures are coming across the network properly
-	#if debug3 == true
-	LDATA_UDP_MSG* tempObsMsg = (LDATA_UDP_MSG*)bufferBeingFilled;
-	for (int currentSample = 0; currentSample < NUM_SAMPLES_PER_ROTATION; currentSample++)
-	{
-			printf("ShortestObject: %1.2f\n", tempObsMsg[currentSample].ldet[0]);
-	}
-	#endif
 
 	// Now that the buffer has been filled place it in the dataQ
 	dataQ->Enqueue(bufferBeingFilled);
@@ -117,8 +118,6 @@ void UDPReceiver::ReceiveData()
 //
 //
 //
-// TODO: What type does this need to be in order for me to be able to
-// pass to return a char* two layers up?
 bool UDPReceiver::GetDataBuffer(char** tempBufferPtr)
 {
 	bool dequeueFlag = false;
@@ -143,7 +142,7 @@ bool UDPReceiver::ReleaseDataBuffer(char* tempBufferPtr)
 //
 //
 //
-void UDPReceiver::ResyncFreeQAndDataQ()
+void UDPReceiver::ResyncFreeQAndDataQIfNecessary()
 {
 	if(freeQ->IsEmpty())
 	{
@@ -156,4 +155,10 @@ void UDPReceiver::ResyncFreeQAndDataQ()
 		strcpy(myLogMessage->logString, "freeQ and DataQ resynchronization was required!");
 		SendToLogger();
 	}
+}
+
+void UDPReceiver::ConcatCharArraysAndAddNullChar(char* dest, const char* src)
+{
+    strcat(dest, src);
+    dest[strlen(dest)+strlen(src)+1] = '\0';
 }
