@@ -1,16 +1,13 @@
 # Real-Time System Core (RTSC)
 A baseline for any real-time system concept.
 
-## Capabilties
-These come packaged as a single unit (possessing all of the listed current capabilties).
-
-### Current Capabilites
+## Current Capabilites
 - Thread Management
 - Real-Time Logging
 - Threaded UDP Sending/Receiving
-- Thread-safe Buffer Pointer Queues
+- Thread-safe Data Structures
 
-### Future Capabilties
+## Future Capabilties
 - CPU Distribution Monitoring
 - Memory Usage Monitoring
 
