@@ -1,6 +1,6 @@
 CC=g++
 
-EXEC_NAME = RTSC
+EXEC_NAME = RTSC.exe
 
 IDIR=Include
 SDIR=Source
@@ -11,30 +11,30 @@ EXECDIR=Application
 CFLAGS= -I$(IDIR) -lpthread
 
 _DEPS=Base.h\
-      CharPtrQueue.h\
+      Ptr32Queue.h\
       Global.h\
       Logger.h\
-      LogMSG.h\
+      LogMessage.h\
       Platform.h\
       RtscConfig.h\
       RtscTiming.h\
       ThreadBase.h\
       ThreadManager.h\
-      UDPHeader.h\
-      UDPReceiver.h\
-      UDPSender.h\
+      UdpHeader.h\
+      UdpReceiver.h\
+      UdpSender.h\
 
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 _OBJ=Base.o\
      CharPtrQueue.o\
      Logger.o\
-     main.o\
+     Main.o\
      RtscTiming.o\
      ThreadBase.o\
      ThreadManager.o\
-     UDPReceiver.o\
-     UDPSender.o\
+     UdpReceiver.o\
+     UdpSender.o\
 
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
