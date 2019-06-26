@@ -19,7 +19,7 @@ int main(void)
 	ThreadManager* myThreadManager = ThreadManager::getInstance();
 	myThreadManager->StartAllThreads();
 
-	// Print processor info
+	// Print system info
 	cout << "System Info: ";
 
 	#ifdef RTSC_INTEL

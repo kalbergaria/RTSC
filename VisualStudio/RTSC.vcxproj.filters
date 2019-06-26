@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Code\Source\Base.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Source\Logger.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Source\Main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Source\Ptr32Queue.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Source\RtscTiming.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Source\ThreadBase.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Source\ThreadManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Source\UdpReceiver.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Source\UdpSender.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Code\Include\Base.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Include\Global.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Include\Logger.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Include\LogMessage.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Include\Platform.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Include\Ptr32Queue.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Include\RtscConfig.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Include\RtscTiming.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Include\ThreadBase.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Include\ThreadManager.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Include\UdpHeader.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Include\UdpReceiver.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Include\UdpSender.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
