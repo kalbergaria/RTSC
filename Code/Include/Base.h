@@ -3,7 +3,7 @@
 
 // System Files
 #include "Global.h"
-#include "UDPSender.h"
+#include "UdpSender.h"
 #include "LogMessage.h"
 
 class Base
@@ -33,7 +33,7 @@ class Base
 	//
 	// METHOD NAME: SendToLogger
 	//
-	/// DESCRIPTION: When the UDPSender is instantiated, it is
+	/// DESCRIPTION: When the UdpSender is instantiated, it is
 	/// given the port # and ip address for the system's 
 	/// logger (this information is read-in from the 
 	/// Config.rtsc file at runtime).
@@ -52,7 +52,7 @@ class Base
 	/// sender.
 	///////////////////////////////////////////////////////////
 	char* myClassName;
-    UDPSender* logSender;
+    UdpSender* logSender;
     LogMsg* myLogMessage;
 };
 
