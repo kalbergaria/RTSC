@@ -26,7 +26,7 @@ Logger::Logger(UdpReceiver* UdpReceiverPtr)
 	now = time(NULL);
 	logFileName[0] = '\0';
 	if (now != -1)
-		strftime(logFileName, LOG_PATH_LENGTH, "Logs/%m-%d-%y_%H:%M:%S.log", gmtime(&now));
+		strftime(logFileName, LOG_PATH_LENGTH, "%m-%d-%y_%H:%M:%S.log", gmtime(&now));
 
 	// Create file for writing
 	logFile.open(logFileName, ios::out);
