@@ -47,7 +47,7 @@ UdpReceiver::UdpReceiver(int providedPortNumber, int providedBufferSize, int pro
 		freeQ->Enqueue(dataBuffers[bufferIndex]);
 	}
 
-	// Prep logMSG and log that the class has been created
+	// Prep LogMsg and log that the class has been created
 	strcpy(myLogMessage->UDP_MSGHeader.source, myIP);
 	strcpy(myLogMessage->UDP_MSGHeader.destination, DISPLAY_AND_LOGGER_IP);
 	strcpy(myLogMessage->className, receiverOwner);

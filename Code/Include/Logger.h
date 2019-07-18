@@ -6,7 +6,7 @@
 // System Files
 #include "../Include/Global.h"
 #include "../Include/ThreadBase.h"
-#include "../Include/UDPReceiver.h"
+#include "../Include/UdpReceiver.h"
 
 // Extrernal Files
 #include <fstream>
@@ -26,11 +26,11 @@ class Logger : public ThreadBase
     void WriteCharArrayToLog(char* array, int arrayLength);
 
     // private data
-    struct timespec logMsgTimestamp;
+    struct timespec LogMsgTimestamp;
     ofstream logFile;
     char logFileName[LOG_PATH_LENGTH];
     LogMsg* logMessage;
-    UDPReceiver* loggingUdpReceiver;
+    UdpReceiver* loggingUdpReceiver;
 };
 
 #endif

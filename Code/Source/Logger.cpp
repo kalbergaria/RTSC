@@ -15,11 +15,11 @@ Logger::Logger() {}
 //
 //
 // Constructor
-Logger::Logger(UDPReceiver* UDPReceiverPtr)
+Logger::Logger(UdpReceiver* UdpReceiverPtr)
 {
 	strcpy(myClassName, "Logger");
 
-	loggingUDPReceiver = UDPReceiverPtr;
+	loggingUdpReceiver = UdpReceiverPtr;
 
 	// create log file name
 	time_t now;
@@ -31,7 +31,7 @@ Logger::Logger(UDPReceiver* UDPReceiverPtr)
 	// Create file for writing
 	logFile.open(logFileName, ios::out);
 
-	// Prep logMSG and log that the class has been created
+	// Prep LogMsg and log that the class has been created
 	strcpy(myLogMessage->UDP_MSGHeader.source, DISPLAY_AND_LOGGER_IP);
 	strcpy(myLogMessage->UDP_MSGHeader.destination, DISPLAY_AND_LOGGER_IP);
 	strcpy(myLogMessage->className, myClassName);
@@ -62,10 +62,10 @@ void Logger::ThreadMethod()
 	// it writes the log message to the log file.
 	while(true)
 	{
-		if(loggingUDPReceiver->GetDataBuffer((char**)&logMessage))
+		if(loggingUdpReceiver->GetDataBuffer((char**)&logMessage))
 		{
 			WriteToLog();
-			loggingUDPReceiver->ReleaseDataBuffer((char*)logMessage);
+			loggingUdpReceiver->ReleaseDataBuffer((char*)logMessage);
 		}
 		else
 		{
@@ -80,8 +80,8 @@ void Logger::ThreadMethod()
 void Logger::WriteToLog()
 {
 	// Print the timestamp at the head of the line
-	clock_gettime(CLOCK_REALTIME, &logMSGTimestamp);
-	logFile << "[" << TimespecConcatTimeConvert2us(&logMSGTimestamp) << "]: ";
+	clock_gettime(CLOCK_REALTIME, &LogMsgTimestamp);
+	logFile << "[" << TimespecConcatTimeConvert2us(&LogMsgTimestamp) << "]: ";
 
 	// Print the log level
 	switch(logMessage->msgLevel)

@@ -2,7 +2,7 @@
 
 // System Files
 #include "../Include/ThreadManager.h"
-#include "../Include/UDPReceiver.h"
+#include "../Include/UdpReceiver.h"
 #include "../Include/Logger.h"
 
 
@@ -77,12 +77,10 @@ ThreadManager::~ThreadManager()
 //
 void ThreadManager::StartAllThreads()
 {
-	UDPReceiver* loggerUDPReceiver = new UDPReceiver(
-			DISPLAY_AND_LOGGER_IP, sizeof(LogMSG),
-			8, DISPLAY_AND_LOGGER_PORT);
-	loggerUDPReceiver->StartThread();
+	UdpReceiver* loggerUdpReceiver = new UdpReceiver(DISPLAY_AND_LOGGER_PORT, sizeof(LogMsg), 8, (char*)"test", DISPLAY_AND_LOGGER_IP);
+	loggerUdpReceiver->StartThread();
 
-	Logger* myLogger = new Logger(loggerUDPReceiver);
+	Logger* myLogger = new Logger(loggerUdpReceiver);
 	myLogger->StartThread();
 }
 

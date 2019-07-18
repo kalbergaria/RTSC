@@ -27,7 +27,7 @@ _DEPS=Base.h\
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 _OBJ=Base.o\
-     CharPtrQueue.o\
+     Ptr32Queue.o\
      Logger.o\
      Main.o\
      RtscTiming.o\
@@ -39,10 +39,11 @@ _OBJ=Base.o\
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: $(SDIR)/%.cpp $(DEPS)
+	@mkdir -p $(ODIR)
 	$(CC) -c -o $@ $< $(CFLAGS)
 	
 $(EXEC_NAME): $(OBJ)
-	$(CC) -o $(RDIR)/$@ $^ $(CFLAGS)
+	$(CC) -o $(EXECDIR)/$@ $^ $(CFLAGS)
 
 clean:
 	rm -f $(ODIR)/*.o $(RDIR)/$(EXEC_NAME)

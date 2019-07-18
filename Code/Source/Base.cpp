@@ -1,5 +1,7 @@
 // System Files
 #include "Base.h"
+#include "RtscConfig.h"
+
 // External Libraries
 
 //
@@ -11,11 +13,11 @@ Base::Base()
 	myClassName = (char*)malloc(MAX_CLASSNAME_LENGTH * sizeof(char));
 
 	// Allocted memory for a log messge
-	myLogMessage = new LogMSG();
+	myLogMessage = new LogMsg();
 
-	// Instantiate the UDPSender for logging, IP and Port parameters
+	// Instantiate the UdpSender for logging, IP and Port parameters
 	// are those specified in the Config.rtsc file.
-	logSender = new UDPSender((char*)DISPLAY_AND_LOGGER_IP, LOGGER_PORT);
+	logSender = new UdpSender((char*)DISPLAY_AND_LOGGER_IP, DISPLAY_AND_LOGGER_PORT);
 }
 
 //
@@ -35,7 +37,7 @@ void Base::SendToLogger()
 {
 	// Send the data currently in the classes log message
 	// to the logger
-	logSender->SendMSG((char*)myLogMessage, sizeof(LogMSG));
+	logSender->SendMSG((char*)myLogMessage, sizeof(LogMsg));
 }
 
 /*
