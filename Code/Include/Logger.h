@@ -14,7 +14,7 @@
 class Logger : public ThreadBase
 {
   public:
-    Logger(UDPReceiver* UDPReceiverPtr);
+    Logger(UdpReceiver* UdpReceiverPtr);
     ~Logger();
     void ThreadMethod();
     void WriteToLog();
@@ -26,11 +26,11 @@ class Logger : public ThreadBase
     void WriteCharArrayToLog(char* array, int arrayLength);
 
     // private data
-    struct timespec logMSGTimestamp;
+    struct timespec logMsgTimestamp;
     ofstream logFile;
     char logFileName[LOG_PATH_LENGTH];
-    LogMSG* logMessage;
-    UDPReceiver* loggingUDPReceiver;
+    LogMsg* logMessage;
+    UDPReceiver* loggingUdpReceiver;
 };
 
 #endif

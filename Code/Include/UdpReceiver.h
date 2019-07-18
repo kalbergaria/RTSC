@@ -6,7 +6,7 @@
 // System Libraries
 #include "../Include/Global.h"
 #include "../Include/ThreadBase.h"
-#include "../Include/CharPtrQueue.h"
+#include "../Include/Ptr32Queue.h"
 
 // External Libraries
 #include <sys/types.h>
@@ -14,14 +14,14 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-class UDPReceiver : public ThreadBase
+class UdpReceiver : public ThreadBase
 {
 	public:
-		UDPReceiver(int providedPortNumber, int providedBufferSize, int providedNumBuffers, char* owningClass, char* myIP);
-		~UDPReceiver();
+		UdpReceiver(int providedPortNumber, int providedBufferSize, int providedNumBuffers, char* owningClass, char* myIP);
+		~UdpReceiver();
 
 		//public methods
-		void InitializeUDPReceiver();
+		void InitializeUdpReceiver();
 		void ThreadMethod();
 		bool GetDataBuffer(char** tempBufferPtr);
 		bool ReleaseDataBuffer(char* tempBufferPtr);
@@ -36,7 +36,7 @@ class UDPReceiver : public ThreadBase
 	private:
 		// default constructor is private so that it cannot be called
 		// to instantiate the class
-		UDPReceiver();
+		UdpReceiver();
 
 		// private methods
 		void ReceiveData();
@@ -45,9 +45,9 @@ class UDPReceiver : public ThreadBase
 
 		// private data
 		char* receiverOwner;
-		CharPtrQueue* freeQ;
+		Ptr32Queue* freeQ;
 		char freeQName[MAX_CLASSNAME_LENGTH];
-		CharPtrQueue* dataQ;
+		Ptr32Queue* dataQ;
 		char dataQName[MAX_CLASSNAME_LENGTH];
 		char* bufferBeingFilled;
 		int mySocket;

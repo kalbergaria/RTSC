@@ -8,7 +8,7 @@
 
 // System Libraries
 #include "../Include/RtscConfig.h"
-#include "../Include/CharPtrQueue.h"
+#include "../Include/Ptr32Queue.h"
 
 // External Libraries
 #include <string.h>
@@ -20,7 +20,7 @@ pthread_mutex_t myQueueMutex;
 // 
 //
 // 
-CharPtrQueue::CharPtrQueue(int size, char* name):
+Ptr32Queue::Ptr32Queue(int size, char* name):
 	qSize(0),
     numQueuedElements(0),
 	dequeueIndex(0),
@@ -46,7 +46,7 @@ CharPtrQueue::CharPtrQueue(int size, char* name):
 // 
 //
 // 
-CharPtrQueue::~CharPtrQueue(void)
+Ptr32Queue::~Ptr32Queue(void)
 {
     if (Q != 0)
 	{
@@ -62,7 +62,7 @@ CharPtrQueue::~CharPtrQueue(void)
 //
 //
 // 
-bool CharPtrQueue::Dequeue(char** data)
+bool Ptr32Queue::Dequeue(char** data)
 {
 	bool success = false;
 
@@ -87,7 +87,7 @@ bool CharPtrQueue::Dequeue(char** data)
 // 
 //
 // 
-bool CharPtrQueue::Enqueue(char* data)
+bool Ptr32Queue::Enqueue(char* data)
 {
 	bool success = false;
 
@@ -113,7 +113,7 @@ bool CharPtrQueue::Enqueue(char* data)
 // 
 //
 // 
-bool CharPtrQueue::IsFull(void)
+bool Ptr32Queue::IsFull(void)
 {
     bool fullFlag = false;
 
@@ -138,7 +138,7 @@ bool CharPtrQueue::IsFull(void)
 // 
 //
 // 
-bool CharPtrQueue::IsEmpty(void)
+bool Ptr32Queue::IsEmpty(void)
 {
     bool emptyFlag = false;
 
@@ -159,7 +159,7 @@ bool CharPtrQueue::IsEmpty(void)
 // 
 //
 // 
-bool CharPtrQueue::EmptyQueue()
+bool Ptr32Queue::EmptyQueue()
 {
 	bool emptyFlag = false;
 
@@ -180,7 +180,7 @@ bool CharPtrQueue::EmptyQueue()
 // 
 //
 // 
-bool CharPtrQueue::GetOccupancy(int* occupancy)
+bool Ptr32Queue::GetOccupancy(int* occupancy)
 {
     bool occupancyFlag = false;
 
@@ -199,7 +199,7 @@ bool CharPtrQueue::GetOccupancy(int* occupancy)
 // 
 //
 // 
-int CharPtrQueue::NextIndex(int currentIndex)
+int Ptr32Queue::NextIndex(int currentIndex)
 {
     int next = currentIndex + 1;
     // check if next exceeds the queue size

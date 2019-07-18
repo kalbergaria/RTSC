@@ -4,7 +4,7 @@
 // System Files
 #include "Global.h"
 #include "UDPSender.h"
-#include "LogMSG.h"
+#include "LogMessage.h"
 
 class Base
 {
@@ -53,7 +53,7 @@ class Base
 	///////////////////////////////////////////////////////////
 	char* myClassName;
     UDPSender* logSender;
-    LogMSG* myLogMessage;
+    LogMsg* myLogMessage;
 };
 
 #endif

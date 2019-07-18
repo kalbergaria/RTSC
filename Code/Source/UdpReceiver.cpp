@@ -3,17 +3,17 @@
 // External Libraries
 
 // System Files
-#include "../Include/UDPReceiver.h"
+#include "../Include/UdpReceiver.h"
 
 //
 //
 // Default Constructor
-UDPReceiver::UDPReceiver() {}
+UdpReceiver::UdpReceiver() {}
 
 //
 //
 // Constructor
-UDPReceiver::UDPReceiver(int providedPortNumber, int providedBufferSize, int providedNumBuffers, char* owningClass, char* myIP)
+UdpReceiver::UdpReceiver(int providedPortNumber, int providedBufferSize, int providedNumBuffers, char* owningClass, char* myIP)
 {
 	strcpy(myClassName, "-Receiver");
 
@@ -36,8 +36,8 @@ UDPReceiver::UDPReceiver(int providedPortNumber, int providedBufferSize, int pro
 	strcpy(freeQName, receiverOwner);
 	ConcatCharArraysAndAddNullChar(dataQName, " dataQ");
 	ConcatCharArraysAndAddNullChar(freeQName, " freeQ");
-	dataQ = new CharPtrQueue(providedNumBuffers, dataQName);
-	freeQ = new CharPtrQueue(providedNumBuffers, freeQName);
+	dataQ = new Ptr32Queue(providedNumBuffers, dataQName);
+	freeQ = new Ptr32Queue(providedNumBuffers, freeQName);
 
 	// Dynamically allocate space for the user-defined buffers
 	dataBuffers = (char**)malloc(numBuffers * sizeof(char*));
@@ -59,7 +59,7 @@ UDPReceiver::UDPReceiver(int providedPortNumber, int providedBufferSize, int pro
 //
 //
 // Default Constructor
-UDPReceiver::~UDPReceiver()
+UdpReceiver::~UdpReceiver()
 {
 	free(receiverOwner);
 	delete(dataQ);
@@ -70,10 +70,10 @@ UDPReceiver::~UDPReceiver()
 //
 //
 //
-void UDPReceiver::InitializeUDPReceiver()
+void UdpReceiver::InitializeUdpReceiver()
 {
 	if ((mySocket = socket(AF_INET, SOCK_DGRAM, 0)) == -1)
-		printf("UDPReceiver: error creating socket!\n");
+		printf("UdpReceiver: error creating socket!\n");
 
 	destinationAddr.sin_family = AF_INET;
 	destinationAddr.sin_port = htons(portNumber);
@@ -81,13 +81,13 @@ void UDPReceiver::InitializeUDPReceiver()
 	bzero(&(destinationAddr.sin_zero), 8);
 
 	if (bind(mySocket, (struct sockaddr *)&destinationAddr, sizeof(struct sockaddr)) == -1)
-		printf("UDPReceiver: Binding error");
+		printf("UdpReceiver: Binding error");
 }
 
 //
 //
 //
-void UDPReceiver::ThreadMethod()
+void UdpReceiver::ThreadMethod()
 {
 	while (true)
 	{
@@ -98,7 +98,7 @@ void UDPReceiver::ThreadMethod()
 //
 //
 //
-void UDPReceiver::ReceiveData()
+void UdpReceiver::ReceiveData()
 {
 	// If there are no additional buffers available, resynchronize with the
 	// data destination by emptying the dataQ
@@ -118,7 +118,7 @@ void UDPReceiver::ReceiveData()
 //
 //
 //
-bool UDPReceiver::GetDataBuffer(char** tempBufferPtr)
+bool UdpReceiver::GetDataBuffer(char** tempBufferPtr)
 {
 	bool dequeueFlag = false;
 
@@ -134,7 +134,7 @@ bool UDPReceiver::GetDataBuffer(char** tempBufferPtr)
 //
 //
 //
-bool UDPReceiver::ReleaseDataBuffer(char* tempBufferPtr)
+bool UdpReceiver::ReleaseDataBuffer(char* tempBufferPtr)
 {
 	return freeQ->Enqueue(tempBufferPtr);
 }
@@ -142,7 +142,7 @@ bool UDPReceiver::ReleaseDataBuffer(char* tempBufferPtr)
 //
 //
 //
-void UDPReceiver::ResyncFreeQAndDataQIfNecessary()
+void UdpReceiver::ResyncFreeQAndDataQIfNecessary()
 {
 	if(freeQ->IsEmpty())
 	{
@@ -157,7 +157,7 @@ void UDPReceiver::ResyncFreeQAndDataQIfNecessary()
 	}
 }
 
-void UDPReceiver::ConcatCharArraysAndAddNullChar(char* dest, const char* src)
+void UdpReceiver::ConcatCharArraysAndAddNullChar(char* dest, const char* src)
 {
     strcat(dest, src);
     dest[strlen(dest)+strlen(src)+1] = '\0';

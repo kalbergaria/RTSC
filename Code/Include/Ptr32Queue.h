@@ -13,12 +13,12 @@ using namespace std;
 
 #define MAX_Q_NAME 30
 
-class CharPtrQueue
+class Ptr32Queue
 {
 
 	public:
-		CharPtrQueue(int size, char* name);
-		~CharPtrQueue(void);
+		Ptr32Queue(int size, char* name);
+		~Ptr32Queue(void);
 
 		// methods
 		bool IsFull(void);
