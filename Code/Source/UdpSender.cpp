@@ -1,19 +1,19 @@
 //TODO: Currently coded for Linux only!
 
 // System Files
-#include "UDPSender.h"
+#include "UdpSender.h"
 
 // External Libraries
 
 //
 //
 //
-UDPSender::UDPSender() {}
+UdpSender::UdpSender() {}
 
 //
 //
 //
-UDPSender::UDPSender(char* ipAddress, int portNumber)
+UdpSender::UdpSender(char* ipAddress, int portNumber)
 {
 	#ifdef RTSC_LINUX
 		sockaddrSize = sizeof(struct sockaddr);
@@ -22,7 +22,7 @@ UDPSender::UDPSender(char* ipAddress, int portNumber)
 		strcat(destIPAddress, "\0");
 
 		if ((mySocket = socket(AF_INET, SOCK_DGRAM, 0)) == -1)
-			printf("UDPSender: error creating socket!\n");
+			printf("UdpSender: error creating socket!\n");
 
 		destinationAddr.sin_family = AF_INET;
 		destinationAddr.sin_port = htons(portNumber);
@@ -34,7 +34,7 @@ UDPSender::UDPSender(char* ipAddress, int portNumber)
 //
 //
 //
-void UDPSender::SendMSG(char* msg, int msgSize)
+void UdpSender::SendMSG(char* msg, int msgSize)
 {
 	#ifdef RTSC_LINUX
 		sendto(mySocket, msg, msgSize, 0, 

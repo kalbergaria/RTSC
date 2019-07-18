@@ -13,19 +13,19 @@
 #include <arpa/inet.h>
 #endif
 
-class UDPSender
+class UdpSender
 {
 	public:
 		///////////////////////////////////////////////////////////
 		// TYPE: Method 
 		//  
-		// METHOD NAME: UDPSender
+		// METHOD NAME: UdpSender
 		//
 		/// DESCRIPTION: Only means of instantiating the class, 
 		/// forcing a user to specify an ip and port number to
 		/// whom this sender will send messages to.
 		///////////////////////////////////////////////////////////
-		UDPSender(char* ipAddress, int portNumber);
+		UdpSender(char* ipAddress, int portNumber);
 
 		///////////////////////////////////////////////////////////
 		// TYPE: Method 
@@ -42,11 +42,11 @@ class UDPSender
 		///////////////////////////////////////////////////////////
 		// TYPE: Method 
 		//  
-		// METHOD NAME: UDPSender
+		// METHOD NAME: UdpSender
 		//
 		/// DESCRIPTION: Default constructor
 		///////////////////////////////////////////////////////////
-		UDPSender();
+		UdpSender();
 
 		///////////////////////////////////////////////////////////
 		// TYPE: Private Data Members
