@@ -1,11 +1,11 @@
-CC=g++
-
 EXEC_NAME = RTSC.exe
+STATIC_LIB_NAME=RTSC.a
 
 IDIR=Include
 SDIR=Source
 ODIR=Objects
 EXECDIR=Application
+STATICDIR=StaticLibrary
 
 #CFLAGS=-lm -lpthread -I$(IDIR) -Lrelease -lstdc++ -Wl,-rpath=.
 CFLAGS= -I$(IDIR) -lpthread
@@ -26,24 +26,30 @@ _DEPS=Base.h\
 
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ=Base.o\
+_OBJ=Main.o\
+     Base.o\
      Ptr32Queue.o\
      Logger.o\
-     Main.o\
      RtscTiming.o\
      ThreadBase.o\
      ThreadManager.o\
      UdpReceiver.o\
      UdpSender.o\
 
+_MAIN_OBJ=Main.o\
+
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: $(SDIR)/%.cpp $(DEPS)
 	@mkdir -p $(ODIR)
-	$(CC) -c -o $@ $< $(CFLAGS)
+	g++ -c -o $@ $< $(CFLAGS)
 	
 $(EXEC_NAME): $(OBJ)
-	$(CC) -o $(EXECDIR)/$@ $^ $(CFLAGS)
+	g++ -o $(EXECDIR)/$@ $^ $(CFLAGS)
+
+staticlib:
+	@mkdir -p $(STATICDIR)
+	ar rcs $(STATICDIR)/$(STATIC_LIB_NAME) $(OBJ)
 
 clean:
 	rm -f $(ODIR)/*.o $(RDIR)/$(EXEC_NAME)
