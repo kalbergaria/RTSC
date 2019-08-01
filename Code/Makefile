@@ -26,8 +26,7 @@ _DEPS=Base.h\
 
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ=Main.o\
-     Base.o\
+_OBJ=Base.o\
      Ptr32Queue.o\
      Logger.o\
      RtscTiming.o\
@@ -38,13 +37,16 @@ _OBJ=Main.o\
 
 _MAIN_OBJ=Main.o\
 
+_ALL_OBJ:=$(_OBJ)$(_MAIN_OBJ)
+
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+ALL_OBJ = $(patsubst %,$(ODIR)/%,$(_ALL_OBJ))
 
 $(ODIR)/%.o: $(SDIR)/%.cpp $(DEPS)
 	@mkdir -p $(ODIR)
 	g++ -c -o $@ $< $(CFLAGS)
 	
-$(EXEC_NAME): $(OBJ)
+$(EXEC_NAME): $(ALL_OBJ)
 	g++ -o $(EXECDIR)/$@ $^ $(CFLAGS)
 
 staticlib:
