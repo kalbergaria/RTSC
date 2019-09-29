@@ -5,35 +5,12 @@
 
 // External Libraries
 
-#define THOUSAND 1000
-
-//
-//
-//
-void SleepRemainingIterationDuration(timespec* iterationStart, int usecIterationDuration, int usecSleepIntervals)
+unsigned long long getRdtsc(void)
 {
-	struct timespec currentTime;
-	clock_gettime(CLOCK_REALTIME, &currentTime);
+	unsigned long long int x;
+	unsigned a, d;
 
-	while (TimespecConcatTimeConvert2us(&currentTime) - TimespecConcatTimeConvert2us(iterationStart) < usecIterationDuration)
-	{
-		usleep(usecSleepIntervals);
-		clock_gettime(CLOCK_REALTIME, &currentTime);
-	}
-}
+	__asm__ volatile("rdtsc" : "=a" (a), "=d" (d));
 
-//
-// FOR TIMESPEC!!!
-//
-long long TimespecConcatTimeConvert2us(timespec* timeStruct)
-{
-	return (long long)(timeStruct->tv_sec * THOUSAND * THOUSAND + timeStruct->tv_nsec / THOUSAND);
-}
-
-//
-// FOR TIMEVAL!!!
-//
-long long TimevalConcatTimeConvert2us(timeval* timeStruct)
-{
-	return (long long)(timeStruct->tv_sec * THOUSAND * THOUSAND + timeStruct->tv_usec);
+	return ((unsigned long long)a) | (((unsigned long long)d) << 32);;
 }

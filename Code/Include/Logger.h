@@ -7,30 +7,52 @@
 #include "../Include/Global.h"
 #include "../Include/ThreadBase.h"
 #include "../Include/UdpReceiver.h"
+#include "../Include/Ptr32Queue.h"
 
 // Extrernal Files
-#include <fstream>
+
+
+// External Namespaces
 
 class Logger : public ThreadBase
 {
-  public:
-    Logger(UdpReceiver* UdpReceiverPtr);
-    ~Logger();
-    void ThreadMethod();
-    void WriteToLog();
-    void CreateNewLog();
+	enum LoggerType
+	{
+		LOCAL,
+		UDP
+	};
 
-  private:
-    // private default constructor, so it cannot be called
-    Logger();
-    void WriteCharArrayToLog(char* array, int arrayLength);
+	enum LogLevel
+	{
+		LOG_CLASS_CREATION,
+		LOG INFO,
+		LOG_WARNING,
+		LOG_ERROR,
+		LOG_FATAL,
+		LOG_UNKOWN
+	};
 
-    // private data
-    struct timespec LogMsgTimestamp;
-    ofstream logFile;
-    char logFileName[LOG_PATH_LENGTH];
-    LogMsg* logMessage;
-    UdpReceiver* loggingUdpReceiver;
+public:
+	Logger(LoggerType type, string baseFileName);
+	Logger(UdpReceiver *UdpReceiverPtr);
+	~Logger();
+	void ThreadMethod();
+	void WriteToLog(char* logString);
+	void CreateNewLog();
+
+private:
+	FILE* logFile;
+	Pts32Queue* logQueue;
+	LoggerType type;
+
+	void WriteCharArrayToLog(char *array, int arrayLength);
+
+	// private data
+	struct timespec LogMsgTimestamp;
+	ofstream logFile;
+	char logFileName[LOG_PATH_LENGTH];
+	LogMsg *logMessage;
+	UdpReceiver *loggingUdpReceiver;
 };
 
 #endif

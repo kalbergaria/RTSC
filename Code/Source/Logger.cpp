@@ -2,6 +2,8 @@
 
 // External Libraries
 #include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 // System Files
 #include "../Include/Logger.h"
@@ -9,42 +11,40 @@
 
 //
 //
-// Private Default Constructor
-Logger::Logger() {}
-
-//
-//
 // Constructor
-Logger::Logger(UdpReceiver* UdpReceiverPtr)
+Logger::Logger(LoggerType type, string baseFileName)
 {
-	strcpy(myClassName, "Logger");
+	this->type = type;
+	switch(this->type)
+	{
+		case LOCAL:
+			// create log filename
+			unsigned long long rdtsc = getRdtsc();
+			if (rdtsc > 0)
+			{
+				string fileName = baseFileName + to_string(rdtsc);
+				
+				// Create file for writing
+				logFile = fopen(logFileName, "W");
+				if (logFile == NULL)
+				{
 
-	loggingUdpReceiver = UdpReceiverPtr;
+				}
+			}
+			else
+			{
+				cout << "Error creating log file... exiting..." << endl;
+				exit(0);
+			}
+	
+		break;
 
-	// create log file name
-	time_t now;
-	now = time(NULL);
-	logFileName[0] = '\0';
-	if (now != -1)
-		strftime(logFileName, LOG_PATH_LENGTH, "%m-%d-%y_%H:%M:%S.log", gmtime(&now));
+		case UDP:
+		break;
 
-	// Create file for writing
-	logFile.open(logFileName, ios::out);
-
-	// Prep LogMsg and log that the class has been created
-	strcpy(myLogMessage->UDP_MSGHeader.source, DISPLAY_AND_LOGGER_IP);
-	strcpy(myLogMessage->UDP_MSGHeader.destination, DISPLAY_AND_LOGGER_IP);
-	strcpy(myLogMessage->className, myClassName);
-	myLogMessage->msgLevel = CLASS_CREATION;
-	SendToLogger();
-
-	#if AUTO_OPEN_LOG == true
-	    if(fork() == 0)
-		{
-			system("./../scripts/LaunchGloggWithLatestLog.sh 2> /dev/null");
-			exit(0);
-		}
-	#endif
+		default:
+		break;
+	}
 }
 
 //
@@ -58,18 +58,20 @@ Logger::~Logger()
 // Logging
 void Logger::ThreadMethod()
 {
-	// Checks for log messages, if there are none it re-checks every 10ms, otherwise
-	// it writes the log message to the log file.
+	char* logString;
+
+	// Checks the logQueue for log stirngs, if there are none it sleeps 10ms
+	// the retries, otherwise it writes each available log string to the file
 	while(true)
 	{
-		if(loggingUdpReceiver->GetDataBuffer((char**)&logMessage))
+		if (!logQueue->isEmpty)
 		{
-			WriteToLog();
-			loggingUdpReceiver->ReleaseDataBuffer((char*)logMessage);
+			logQueue->Dequeue((char**)& logString);
+			WriteToLog(logString);
 		}
 		else
 		{
-			usleep(1000); //10ms
+			usleep(1000); // 10ms
 		}
 	}
 }
@@ -77,11 +79,11 @@ void Logger::ThreadMethod()
 //
 //
 // Write to the system log
-void Logger::WriteToLog()
+void Logger::WriteToLog(char* logString, LogLevel logLevel)
 {
 	// Print the timestamp at the head of the line
-	clock_gettime(CLOCK_REALTIME, &LogMsgTimestamp);
-	logFile << "[" << TimespecConcatTimeConvert2us(&LogMsgTimestamp) << "]: ";
+	unsigned long long rdtsc = getRdtsc();
+	logFile << "[" << to_string(rdtsc) << "]: ";
 
 	// Print the log level
 	switch(logMessage->msgLevel)

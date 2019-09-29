@@ -1,14 +1,9 @@
 //TODO: Currently coded for Linux only!
 
-#ifndef CMSN_TIME_H
-#define CMSN_TIME_H
+#ifndef RTSC_TIMING_H
+#define RTSC_TIMING_H
 
-#include "Global.h"
-
-void SleepRemainingIterationDuration(timespec* iterationStart, int usecIterationDuration, int usecSleepIntervals);
-
-long long TimespecConcatTimeConvert2us(timespec* timeStruct);
-
-long long TimevalConcatTimeConvert2us(timeval* timeStruct);
+// Get Read Time Stamped Counter (RDTSC)
+unsigned long long getRdtsc(void);
 
 #endif
